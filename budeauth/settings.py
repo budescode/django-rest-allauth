@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'budesocial',
+    'djangorestallauth',
     #third party apps
     'rest_framework',
     'rest_framework.authtoken',
@@ -134,3 +135,11 @@ AUTHENTICATION_BACKENDS = (
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 SITE_ID = 1
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated','rest_framework.permissions.AllowAny' )
+}

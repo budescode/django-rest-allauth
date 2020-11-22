@@ -18,5 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('budeauth/', include('budesocial.api.urls')),
+    path('djangorestallauth/', include('djangorestallauth.api.urls')),
 ]
