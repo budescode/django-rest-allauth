@@ -26,7 +26,8 @@ class ResetPasswordSerializer(serializers.Serializer):
         if not qs.exists():
             raise serializers.ValidationError('Invalid Email Or ResetCode')
         return data
-
+#https://developers.google.com/gmail/api/reference/rest/v1/users/getProfile
+#https://developers.facebook.com/docs/graph-api/reference/user/
     
 class ResetPasswordCodeSerializer(serializers.ModelSerializer):
     class Meta:
