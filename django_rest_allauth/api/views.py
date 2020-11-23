@@ -1,5 +1,5 @@
-from djangorestallauth.models import DjangoRestAllAuth
-from .serializers import SocialSerializer, UserSerializer, UserLoginSerializer, UserDetailsSerializer, ChangePasswordSerializer, ResetPasswordSerializer
+from django_rest_allauth.models import DjangoRestAllAuth, ResetPasswordCode
+from .serializers import SocialSerializer, UserSerializer, UserLoginSerializer, UserDetailsSerializer, ChangePasswordSerializer, ResetPasswordSerializer, ResetPasswordCodeSerializer
 from rest_framework import generics
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
@@ -27,6 +27,59 @@ class UserDetails(generics.RetrieveAPIView):
         user = User.objects.get(username=self.request.user.username)
         return user
 
+
+class ResetPasswordView(generics.ListAPIView):
+    lookup_field = 'pk'
+    serializer_class = ResetPasswordSerializer
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    def post(self, request, format=None):
+        serializer = ResetPasswordSerializer(data=request.data)
+        if serializer.is_valid(): 
+            email = serializer.validated_data['email']
+            password = serializer.validated_data['password']
+            user = User.objects.get(email=email)
+            user.set_password(password)
+            user.save()
+            qs = ResetPasswordCode.objects.get(email=email)
+            qs.delete()
+            message = {'message':'password successfully set'}
+            data = {'message':message}
+            return Response(data, status=HTTP_201_CREATED)
+        else:
+            data = {"message":serializer.errors}
+            return Response(data, status=HTTP_400_BAD_REQUEST)
+    def get_queryset(self):
+        qs = []
+        return qs
+
+class ResetPasswordCodeView(generics.ListAPIView):
+    lookup_field = 'pk'
+    serializer_class = ResetPasswordCodeSerializer
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    def post(self, request, format=None):
+        serializer = ResetPasswordCodeSerializer(data=request.data)
+        if serializer.is_valid(): 
+            email = serializer.validated_data['email']
+            resetcode = serializer.validated_data['resetcode']
+            qs = ResetPasswordCode.objects.filter(email=email) 
+            if qs.exists():
+                qs[0].delete()
+                ResetPasswordCode.objects.create(email=email, resetcode=resetcode)
+            else:
+                ResetPasswordCode.objects.create(email=email, resetcode=resetcode)
+            message = {'email':email, 'resetcode':resetcode}
+            data = {'message':message}
+            return Response(data, status=HTTP_201_CREATED)
+        else:
+            data = {"message":serializer.errors}
+            return Response(data, status=HTTP_400_BAD_REQUEST)
+    def get_queryset(self):
+        qs = []
+        return qs
 
 class ChangePasswordView(generics.ListAPIView):
     lookup_field = 'pk'

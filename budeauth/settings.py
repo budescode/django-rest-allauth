@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'budesocial',
-    'djangorestallauth',
+    'django_rest_allauth',
     #third party apps
     'rest_framework',
     'rest_framework.authtoken',

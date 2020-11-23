@@ -22,3 +22,10 @@ class DjangoRestAllAuth(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class ResetPasswordCode(models.Model):
+    email = models.EmailField()
+    resetcode = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.email

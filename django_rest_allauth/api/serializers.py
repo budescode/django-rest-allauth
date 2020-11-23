@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from djangorestallauth.models import DjangoRestAllAuth
+from django_rest_allauth.models import DjangoRestAllAuth, ResetPasswordCode
 from django.conf import settings
 from rest_framework.authtoken.models import Token
 import requests
@@ -11,6 +11,35 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         model = User
         exclude = ['password']
 
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField()
+    new_password = serializers.CharField()
+
+class ResetPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    resetcode = serializers.CharField()
+    password = serializers.CharField()
+    def validate(self, data):
+        email = data['email']
+        resetcode = data['resetcode']
+        qs = ResetPasswordCode.objects.filter(email=email, resetcode=resetcode)
+        if not qs.exists():
+            raise serializers.ValidationError('Invalid Email Or ResetCode')
+        return data
+
+    
+class ResetPasswordCodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ResetPasswordCode
+        exclude = []
+    def validate(self, data):
+        email = data['email']
+        qs = User.objects.filter(email=email)
+        if not qs.exists():
+            raise serializers.ValidationError('Email Does Not Exist')
+        return data
+
+
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=False)
     username = serializers.CharField(required=False)
@@ -20,14 +49,6 @@ class UserLoginSerializer(serializers.Serializer):
         if not 'email' in data and not 'username' in data :
             raise serializers.ValidationError('Enter Username Or Email')        
         return data
-
-class ChangePasswordSerializer(serializers.Serializer):
-    old_password = serializers.CharField()
-    new_password = serializers.CharField()
-
-class ResetPasswordSerializer(serializers.Serializer):
-    password = serializers.CharField()
-
 
 
 class UserSerializer(serializers.Serializer):
@@ -59,7 +80,6 @@ def sendRequest(url):
 
 
 class SocialSerializer(serializers.ModelSerializer):
-    #password = serializers.CharField(write_only = True, required=True)
     class Meta:
         model = DjangoRestAllAuth
         fields = '__all__'
@@ -82,17 +102,4 @@ class SocialSerializer(serializers.ModelSerializer):
             if not 'user_id' in googlerequest:
                 raise serializers.ValidationError('Invalid token or has expired')   
         return data
-    
-    # def validate_token(self, value):
-    #     url = 'https://graph.facebook.com/me?access_token={}'.format(value)
-    #     try:
-    #         r = requests.get(url = url)         
-    #         data = r.json() 
-    #         print(data, 'yayayaya')
-    #         try:
-    #             userid = data['id']
-    #         except KeyError:
-    #             raise serializers.ValidationError('Invalid token or has expired')
-    #     except ConnectionError:
-    #         raise serializers.ValidationError('Unable to validate token, make sure your data connection is on')
-    #     return value
+ 
