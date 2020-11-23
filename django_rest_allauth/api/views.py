@@ -16,6 +16,14 @@ import string
 from random import choice
 User = get_user_model()
 
+# @api_view(['POST'])
+# @permission_classes([permissions.IsAuthenticated]) #this is to get a set bvn verification to true
+# def ChangeBvnView(request):
+#     user = get_user_model().objects.get(username=request.user.username)
+#     user.verifybvn = True
+#     user.save()
+#     data = {"message":user.verifybvn}
+#     return Response(data, status=status.HTTP_200_OK)
 
 class UserDetails(generics.RetrieveAPIView):
     lookup_field = 'pk'
