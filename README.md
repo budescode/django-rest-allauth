@@ -39,7 +39,7 @@ Quick start
 8. Visit http://127.0.0.1:8000/django-rest-allauth/ to participate in the django_rest_allauth.
 
 ## Url Endpoints
-
+This package uses token authentication
 * [authenticatesocialuser](#authenticatesocialuser)
 * token/createuser
 * token/login
@@ -50,10 +50,10 @@ Quick start
 * token/resetpassword
 * token/logout
 
-Hello, this is some text to fill in this, [here](#authenticatesocialuser), is a link to the sauthenticatesocialuser.
+
 
 ### authenticatesocialuser
 
-Place one has the fun times of linking here, but I can also link back [here](#place-1).
+To authenticate a user with social media (facebook and google)
 
 
