@@ -69,6 +69,35 @@ class UserSerializer(serializers.Serializer):
             if User.objects.filter(username=username).exists():
                 raise serializers.ValidationError('Username Already Exist')
         return data
+class EditUserSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=False)
+    username = serializers.CharField(required=False)
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
+    def validate_email(self, value):
+        user = User.objects.filter(email=value)
+        if user.exists():
+            raise serializers.ValidationError('email already exist')
+        return value
+    def validate_username(self, value):
+        user = User.objects.filter(username=value)
+        if user.exists():
+            raise serializers.ValidationError('Username already exist')
+        return value
+    #def validate(self, data)
+        # email = data['email']
+        # username = data['username']
+        # first_name = data['first_name']
+        # last_name = data['last_name']
+        # # if not 'email' in data and not 'username' in data :
+        # #     raise serializers.ValidationError('Enter Username Or Email')        
+        # # if User.objects.filter(email=email).exists():
+        # #     raise serializers.ValidationError('Email Already Exist')
+        # # if 'username' in data:
+        # #     username = data['username']
+        # #     if User.objects.filter(username=username).exists():
+        # #         raise serializers.ValidationError('Username Already Exist')
+        # return data
 
 
 def sendRequest(url):

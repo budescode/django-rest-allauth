@@ -11,7 +11,7 @@ class DjangoRestAllAuth(models.Model):
         ('Github', 'Github'),
     )
     authmode = models.CharField(max_length=20, choices=social_choice)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='django_rest_allauth', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='django_rest_allauth_user', on_delete=models.CASCADE)
     token = models.TextField()
     email = models.EmailField()
     username = models.CharField(max_length=50, null=True, blank=True)

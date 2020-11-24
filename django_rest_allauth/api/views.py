@@ -1,5 +1,5 @@
 from django_rest_allauth.models import DjangoRestAllAuth, ResetPasswordCode
-from .serializers import SocialSerializer, UserSerializer, UserLoginSerializer, UserDetailsSerializer, ChangePasswordSerializer, ResetPasswordSerializer, ResetPasswordCodeSerializer
+from .serializers import SocialSerializer, UserSerializer, UserLoginSerializer, UserDetailsSerializer, ChangePasswordSerializer, ResetPasswordSerializer, ResetPasswordCodeSerializer, EditUserSerializer
 from rest_framework import generics
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
@@ -14,16 +14,17 @@ from rest_framework.authtoken.models import Token
 import random
 import string
 from random import choice
+from rest_framework.decorators import api_view, permission_classes
 User = get_user_model()
 
-# @api_view(['POST'])
-# @permission_classes([permissions.IsAuthenticated]) #this is to get a set bvn verification to true
-# def ChangeBvnView(request):
-#     user = get_user_model().objects.get(username=request.user.username)
-#     user.verifybvn = True
-#     user.save()
-#     data = {"message":user.verifybvn}
-#     return Response(data, status=status.HTTP_200_OK)
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated]) 
+def userLogout(request):
+    user = get_user_model().objects.get(username=request.user.username)
+    token = Token.objects.get(user=user)
+    token.delete()
+    data = {"message":'logged out successfully'}
+    return Response(data, status=HTTP_200_OK)
 
 class UserDetails(generics.RetrieveAPIView):
     lookup_field = 'pk'
@@ -35,6 +36,45 @@ class UserDetails(generics.RetrieveAPIView):
         user = User.objects.get(username=self.request.user.username)
         return user
 
+class EditUserView(generics.ListAPIView):
+    lookup_field = 'pk'
+    serializer_class = EditUserSerializer
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    def post(self, request, format=None):
+        serializer = EditUserSerializer(data=request.data)
+        if serializer.is_valid(): 
+            userdata = {}
+            user = self.request.user
+            if 'email' in serializer.validated_data:
+                email = serializer.validated_data['email']
+                user.email = email
+                user.save()
+                userdata['email']=email
+            if 'username' in serializer.validated_data:
+                username = serializer.validated_data['username']
+                user.username = username
+                user.save()
+                userdata['username']=username
+            if 'first_name' in serializer.validated_data:
+                first_name = serializer.validated_data['first_name']
+                user.first_name = first_name
+                user.save()
+                userdata['first_name']=first_name
+            if 'last_name' in serializer.validated_data:
+                last_name = serializer.validated_data['last_name']
+                user.last_name = last_name
+                user.save()
+                userdata['last_name']=last_name
+            data = {'message':userdata}
+            return Response(data, status=HTTP_201_CREATED)
+        else:
+            data = {"message":serializer.errors}
+            return Response(data, status=HTTP_400_BAD_REQUEST)
+    def get_queryset(self):
+        qs = []
+        return qs
 
 class ResetPasswordView(generics.ListAPIView):
     lookup_field = 'pk'
