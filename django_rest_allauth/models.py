@@ -7,10 +7,8 @@ class DjangoRestAllAuth(models.Model):
     social_choice = (
         ('Facebook', 'Facebook'),
         ('Google', 'Google'),
-        ('Twitter', 'Twitter'),
-        ('Github', 'Github'),
     )
-    authmode = models.CharField(max_length=20, choices=social_choice)
+    provider = models.CharField(max_length=20, choices=social_choice)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='django_rest_allauth_user', on_delete=models.CASCADE)
     token = models.TextField()
     email = models.EmailField()
@@ -21,7 +19,7 @@ class DjangoRestAllAuth(models.Model):
     profile_pic  =  models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return self.user.email
 
 class ResetPasswordCode(models.Model):
     email = models.EmailField()

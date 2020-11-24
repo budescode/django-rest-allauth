@@ -116,20 +116,30 @@ class SocialSerializer(serializers.ModelSerializer):
         read_only_fields = ['user', 'pk']
 
     def validate(self, data):
-        authmode = data['authmode']
+        provider = data['provider']
         token = data['token']
-        fburl = 'https://graph.facebook.com/me?access_token={}'.format(token)
-        googleurl = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={}'.format(token)
-        githuburl = 'https://api.github.com/applications/:client_id/tokens/:token={}'.format(token)
-        if authmode == 'Facebook':
-            fbrequest = sendRequest(fburl)
-            print(fbrequest)
-            if not 'id' in fbrequest:
-                raise serializers.ValidationError('Invalid token or has expired')   
-        if authmode == 'Google':
-            googlerequest = sendRequest(googleurl)
-            print(googlerequest)
-            if not 'user_id' in googlerequest:
-                raise serializers.ValidationError('Invalid token or has expired')   
+        social_id = data['social_id']
+        socialurl = {
+            'fb':'https://graph.facebook.com/{}?fields=email&access_token={}'.format(social_id, token),
+             'google': 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={}'.format(token),
+        }
+        if provider == 'Facebook':
+            fbrequest = sendRequest(socialurl['fb'])
+            try:
+                email = data['email']
+                socialemail = fbrequest['email']
+                if email != socialemail:
+                    raise serializers.ValidationError('Input Right Email')  
+            except KeyError:
+                raise serializers.ValidationError('Invalid token or has expired')                      
+        if provider == 'Google':
+            googlerequest = sendRequest(socialurl['google'])
+            try:
+                email = data['email']
+                socialemail = googlerequest['email']
+                if email != socialemail:
+                    raise serializers.ValidationError('Input Right Email')  
+            except KeyError:
+                raise serializers.ValidationError('Invalid token or has expired') 
         return data
  

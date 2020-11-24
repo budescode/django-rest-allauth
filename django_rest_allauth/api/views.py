@@ -286,7 +286,7 @@ class SocialUserAuth(generics.ListAPIView):
         serializer = SocialSerializer(data=request.data)
         if serializer.is_valid():
             email = serializer.validated_data['email']
-            authmode = serializer.validated_data['authmode']
+            provider = serializer.validated_data['provider']
             token = serializer.validated_data['token'] 
             social_id = serializer.validated_data['social_id'] 
             try:
@@ -301,7 +301,7 @@ class SocialUserAuth(generics.ListAPIView):
                             user_token = user_token.key
                             user.token = user_token
                             user.save()
-                            DjangoRestAllAuth.objects.get_or_create(user=user, authmode=authmode, token=token, email=email, username=username, social_id=social_id)
+                            DjangoRestAllAuth.objects.get_or_create(user=user, provider=provider, email=email, username=username, social_id=social_id)
                             userdetails = {}
                             userdetails['username'] = user.username
                             userdetails['email'] = user.email
@@ -316,7 +316,7 @@ class SocialUserAuth(generics.ListAPIView):
                     user_token = user_token.key
                     user.token = user_token
                     user.save()
-                    DjangoRestAllAuth.objects.get_or_create(user=user, authmode=authmode, token=token, email=email, username=username, social_id=social_id)
+                    DjangoRestAllAuth.objects.get_or_create(user=user, provider=provider, email=email, username=username, social_id=social_id)
                     userdetails = {}
                     userdetails['username'] = user.username
                     userdetails['email'] = user.email
@@ -335,7 +335,7 @@ class SocialUserAuth(generics.ListAPIView):
                             user_token = user_token.key
                             user.token = user_token
                             user.save()
-                            DjangoRestAllAuth.objects.get_or_create(user=user, authmode=authmode, token=token, email=email, username=username, social_id=social_id)
+                            DjangoRestAllAuth.objects.get_or_create(user=user, provider=provider, email=email, username=username, social_id=social_id)
                             userdetails = {}
                             userdetails['username'] = user.username
                             userdetails['email'] = user.email
@@ -350,7 +350,7 @@ class SocialUserAuth(generics.ListAPIView):
                     user_token = user_token.key
                     user.token = user_token
                     user.save()
-                    DjangoRestAllAuth.objects.get_or_create(user=user, authmode=authmode, token=token, email=email, username=username, social_id=social_id)
+                    DjangoRestAllAuth.objects.get_or_create(user=user, provider=provider, email=email, username=username, social_id=social_id)
                     userdetails = {}
                     userdetails['username'] = user.username
                     userdetails['email'] = user.email
