@@ -37,3 +37,17 @@ Quick start
    to create a poll (you'll need the Admin app enabled).
 
 8. Visit http://127.0.0.1:8000/django-rest-allauth/ to participate in the django_rest_allauth.
+
+## Title
+
+### Place 1
+
+Hello, this is some text to fill in this, [here](#place-2), is a link to the second place.
+
+### Place 2
+
+Place one has the fun times of linking here, but I can also link back [here](#place-1).
+
+### Place's 3: other example
+
+Place one has the fun times of linking here, but I can also link back [here](#places-3-other-example).
