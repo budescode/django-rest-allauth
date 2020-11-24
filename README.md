@@ -41,8 +41,8 @@ Quick start
 ## Url Endpoints
 This package uses token authentication
 * [authenticatesocialuser](#authenticatesocialuser)
-* [createuser](#createuser)
-* token/login
+* [token/createuser](#createuser)
+* [token/login](#login)
 * token/getuser
 * token/edituser
 * token/changepassword
@@ -62,6 +62,18 @@ fields:
     "last_name": ""
 }
 Optional fields are username, first_name and last_name
+
+
+
+### login 
+This is to create a user
+fields:
+{
+    "email": "",
+    "username": "",
+    "password": "",
+}
+Optional either username or email can be used, or both
 
 
 ### authenticatesocialuser
