@@ -41,7 +41,7 @@ Quick start
 ## Url Endpoints
 This package uses token authentication
 * [authenticatesocialuser](#authenticatesocialuser)
-* token/createuser
+* [createuser](#createuser)
 * token/login
 * token/getuser
 * token/edituser
@@ -51,9 +51,36 @@ This package uses token authentication
 * token/logout
 
 
+### createuser 
+This is to create a user
+fields:
+{
+    "email": "",
+    "username": "",
+    "password": "",
+    "first_name": "",
+    "last_name": ""
+}
+Optional fields are username, first_name and last_name
+
 
 ### authenticatesocialuser
 
 To authenticate a user with social media (facebook and google)
+fields:
+{
+    "provider": '',
+    "token": "",
+    "email": "",
+    "username": "",
+    "first_name": "",
+    "last_name": "",
+    "social_id": "",
+    "profile_pic": ""
+}
+These fields are coming from google/facebook response.
+provider accepts 'Facebook' or 'Google'
+optional fields are username, first_name, last_name and profile_pic
+
 
 
