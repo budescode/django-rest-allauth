@@ -73,7 +73,8 @@ fields:
     "username": "",
     "password": "",
 }
-Optional either username or email can be used, or both
+Optional either username or email can be used, or both.
+It returns response with token along with it for authentication
 
 
 ### authenticatesocialuser
