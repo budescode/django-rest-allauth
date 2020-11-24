@@ -38,13 +38,13 @@ Quick start
 
 8. Visit http://127.0.0.1:8000/django-rest-allauth/ to participate in the django_rest_allauth.
 
-## Title
+## Url Endpoints
 
-### Place 1
+### authenticatesocialuser
 
-Hello, this is some text to fill in this, [here](#place-2), is a link to the second place.
+Hello, this is some text to fill in this, [here](#authenticatesocialuser), is a link to the sauthenticatesocialuser.
 
-### Place 2
+### authenticatesocialuser
 
 Place one has the fun times of linking here, but I can also link back [here](#place-1).
 
