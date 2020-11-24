@@ -40,7 +40,15 @@ Quick start
 
 ## Url Endpoints
 
-### authenticatesocialuser
+* [authenticatesocialuser](#authenticatesocialuser)
+* token/createuser
+* token/login
+* token/getuser
+* token/edituser
+* token/changepassword
+* token/resetpasswordcode
+* token/resetpassword
+* token/logout
 
 Hello, this is some text to fill in this, [here](#authenticatesocialuser), is a link to the sauthenticatesocialuser.
 
@@ -48,6 +56,4 @@ Hello, this is some text to fill in this, [here](#authenticatesocialuser), is a 
 
 Place one has the fun times of linking here, but I can also link back [here](#place-1).
 
-### Place's 3: other example
 
-Place one has the fun times of linking here, but I can also link back [here](#places-3-other-example).
