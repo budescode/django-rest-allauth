@@ -52,18 +52,18 @@ This package uses token authentication
 * [authenticatesocialuser](#authenticatesocialuser)
 
 ### createuser 
-This is to create a user
-Method: POST
-Authorization: AllowAny
-fields:
+- This is to create a user
+- Method: POST
+- Authorization: AllowAny
+- fields:
 {
-    "email": "",
-    "username": "",
-    "password": "",
-    "first_name": "",
-    "last_name": ""
+"email": "",
+"username": "",
+"password": "",
+"first_name": "",
+"last_name": ""
 }
-Optional fields are username, first_name and last_name
+- Optional fields are username, first_name and last_name
 
 
 
