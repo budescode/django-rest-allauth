@@ -46,13 +46,15 @@ This package uses token authentication
 * [token/getuser](#getuser)
 * [token/edituser](#edituser)
 * [token/changepassword](#changepassword)
-* token/resetpasswordcode
-* token/resetpassword
+* [token/resetpasswordcode](#resetpasswordcode)
+* [token/resetpassword](#resetpassword)
 * token/logout
 * [authenticatesocialuser](#authenticatesocialuser)
 
 ### createuser 
 This is to create a user
+Method: POST
+Authorization: AllowAny
 fields:
 {
     "email": "",
@@ -66,7 +68,9 @@ Optional fields are username, first_name and last_name
 
 
 ### login 
-This is to create a user
+This is to login a user, it returns userdetails with token along 
+Method: POST
+Authorization: AllowAny
 fields:
 {
     "email": "",
@@ -80,6 +84,7 @@ It returns response with token along with it for authentication
 
 ### edituser 
 This is to edituser details
+Method: POST
 Authorization: Token
 fields:
 {
@@ -92,6 +97,7 @@ All fields are optional, only input the field you want to change
 
 ### changepassword 
 This is to change user's password
+Method: POST
 Authorization: Token
 fields:
 {
@@ -102,11 +108,34 @@ If the old password is correct, it changes the user's password to the new one.
 
 ### getuser 
 This is to get user details, it returns an object with the user details
+Method: GET
 Authorization: Token
 
+### resetpasswordcode
+This will generate a code for the user and send back as response,  the code can be sent to the user's email or sms, the next end point will be to accept the code and email
+Method: POST
+Authorization: AllowAny
+fields: 
+{
+"email": "",
+"resetcode": ""
+}
+
+### resetpassword
+This will accept the code, email and password, if it's correct, the password will be changed
+Method: POST
+Authorization: AllowAny
+fields: 
+{
+"email": "",
+"resetcode": "",
+"password": ""
+}
 ### authenticatesocialuser
 
 To authenticate a user with social media (facebook and google)
+Method: POST
+Authorization: AllowAny
 fields:
 {
     "provider": '',
