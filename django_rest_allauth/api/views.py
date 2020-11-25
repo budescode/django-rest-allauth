@@ -17,15 +17,6 @@ from random import choice
 from rest_framework.decorators import api_view, permission_classes
 User = get_user_model()
 
-@api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated]) 
-def userLogout(request):
-    user = get_user_model().objects.get(username=request.user.username)
-    token = Token.objects.get(user=user)
-    token.delete()
-    data = {"message":'logged out successfully'}
-    return Response(data, status=HTTP_200_OK)
-
 class UserDetails(generics.RetrieveAPIView):
     lookup_field = 'pk'
     serializer_class = UserDetailsSerializer
@@ -42,7 +33,8 @@ class EditUserView(generics.ListAPIView):
     permission_classes = [
         permissions.IsAuthenticated
     ]
-    def post(self, request, format=None):
+        
+    def patch(self, request, format=None):
         serializer = EditUserSerializer(data=request.data)
         if serializer.is_valid(): 
             userdata = {}
@@ -170,9 +162,7 @@ class LoginUserView(generics.ListAPIView):
             if 'email' in serializer.validated_data and 'username' in serializer.validated_data: #if the email and username is passed, authenticate with both
                 email = serializer.validated_data['email']
                 username = serializer.validated_data['username']
-                print(username, email, password, 'yayyaay')
                 user = authenticate(username=username, password=password)
-                print(user)
                 if user is not None:
                     if user.is_active:
                         user_token = Token.objects.get_or_create(user=user)
@@ -253,7 +243,6 @@ class RegisterUserView(generics.ListAPIView):
             if 'email' in serializer.validated_data and 'username' in serializer.validated_data:                
                 email = serializer.validated_data['email']
                 username = serializer.validated_data['username']
-                print(email, username, password, 'registr')
                 user = User.objects.create(username=username, email=email, first_name=first_name, last_name=last_name)
                 user.set_password(password)
                 user.save()
@@ -282,83 +271,42 @@ class SocialUserAuth(generics.ListAPIView):
     permission_classes = [
         permissions.AllowAny
     ]
+    def generate_details(self, user, provider, email, username, social_id):
+        user_token = Token.objects.get_or_create(user=user)
+        user_token = user_token[0]
+        user_token = user_token.key
+        user.token = user_token
+        user.save()
+        DjangoRestAllAuth.objects.get_or_create(user=user, provider=provider, email=email, username=username, social_id=social_id)
+        userdetails = {}
+        userdetails['username'] = user.username
+        userdetails['email'] = user.email
+        userdetails['token'] = user_token
+        userdetails['first_name'] = user.first_name
+        userdetails['last_name'] = user.last_name
+        return userdetails
+
     def post(self, request, format=None):
         serializer = SocialSerializer(data=request.data)
         if serializer.is_valid():
             email = serializer.validated_data['email']
             provider = serializer.validated_data['provider']
             token = serializer.validated_data['token'] 
-            social_id = serializer.validated_data['social_id'] 
+            social_id = serializer.validated_data['social_id']
+            theu = email.find('@')
+            username = email[:theu]
             try:
-                serializer.validated_data['username']
-                username = serializer.validated_data['username']
-                try:
-                    user = User.objects.get(username=username)
-                    if user is not None:
-                        if user.is_active:
-                            user_token = Token.objects.get_or_create(user=user)
-                            user_token = user_token[0]
-                            user_token = user_token.key
-                            user.token = user_token
-                            user.save()
-                            DjangoRestAllAuth.objects.get_or_create(user=user, provider=provider, email=email, username=username, social_id=social_id)
-                            userdetails = {}
-                            userdetails['username'] = user.username
-                            userdetails['email'] = user.email
-                            userdetails['token'] = user_token
-                            return Response(userdetails, status=HTTP_201_CREATED)
-                except:
-                    allchar = string.ascii_letters + string.digits
-                    password = ''.join(choice(allchar) for x in range(13))
-                    user = User.objects.create(username=username, email=email, password=password)
-                    user_token = Token.objects.get_or_create(user=user)
-                    user_token = user_token[0]
-                    user_token = user_token.key
-                    user.token = user_token
-                    user.save()
-                    DjangoRestAllAuth.objects.get_or_create(user=user, provider=provider, email=email, username=username, social_id=social_id)
-                    userdetails = {}
-                    userdetails['username'] = user.username
-                    userdetails['email'] = user.email
-                    userdetails['token'] = user_token
-                    return Response(userdetails, status=HTTP_201_CREATED)
-            except KeyError:
-                email = serializer.validated_data['email']
-                theu = email.find('@')
-                username = email[:theu]
-                try:
-                    user = User.objects.get(username=username)
-                    if user is not None:
-                        if user.is_active:
-                            user_token = Token.objects.get_or_create(user=user)
-                            user_token = user_token[0]
-                            user_token = user_token.key
-                            user.token = user_token
-                            user.save()
-                            DjangoRestAllAuth.objects.get_or_create(user=user, provider=provider, email=email, username=username, social_id=social_id)
-                            userdetails = {}
-                            userdetails['username'] = user.username
-                            userdetails['email'] = user.email
-                            userdetails['token'] = user_token
-                            return Response(userdetails, status=HTTP_201_CREATED)
-                except:
-                    allchar = string.ascii_letters + string.digits
-                    password = ''.join(choice(allchar) for x in range(13))
-                    user = User.objects.create(username=username, email=email, password=password)
-                    user_token = Token.objects.get_or_create(user=user)
-                    user_token = user_token[0]
-                    user_token = user_token.key
-                    user.token = user_token
-                    user.save()
-                    DjangoRestAllAuth.objects.get_or_create(user=user, provider=provider, email=email, username=username, social_id=social_id)
-                    userdetails = {}
-                    userdetails['username'] = user.username
-                    userdetails['email'] = user.email
-                    userdetails['token'] = user_token
-                    return Response(userdetails, status=HTTP_201_CREATED)
-            else:
-                data = {"message":"not found", "results":[]}
-                return Response(data, status=HTTP_400_BAD_REQUEST)
+                user = User.objects.get(username=username)
+                if user is not None:
+                    if user.is_active:
+                        details = self.generate_details(user, provider, email, username, social_id)
+                        return Response(details, status=HTTP_201_CREATED)
+            except:
+                allchar = string.ascii_letters + string.digits
+                password = ''.join(choice(allchar) for x in range(13))
+                user = User.objects.create(username=username, email=email, password=password)
+                details = self.generate_details(user, provider, email, username, social_id)
+                return Response(details, status=HTTP_201_CREATED)
         else:
             data = {"message":serializer.errors, "results":[]}
             return Response(data, status=HTTP_400_BAD_REQUEST)
@@ -366,12 +314,11 @@ class SocialUserAuth(generics.ListAPIView):
         qs = []
         return qs
 
-
-def create_token(user):
-    user_token = Token.objects.get_or_create(user=user)
-    user_token = user_token[0]
-    user_token = user_token.key
-    user.token = user_token
-    user.save()
-    return user_token
-  
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated]) 
+def userLogout(request):
+    user = get_user_model().objects.get(username=request.user.username)
+    token = Token.objects.get(user=user)
+    token.delete()
+    data = {"message":'logged out successfully'}
+    return Response(data, status=HTTP_200_OK)

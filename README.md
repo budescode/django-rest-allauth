@@ -37,3 +37,128 @@ Quick start
    to create a poll (you'll need the Admin app enabled).
 
 8. Visit http://127.0.0.1:8000/django-rest-allauth/ to participate in the django_rest_allauth.
+
+## Url Endpoints
+This package uses token authentication
+
+* [token/createuser](#createuser)
+* [token/login](#login)
+* [token/getuser](#getuser)
+* [token/edituser](#edituser)
+* [token/changepassword](#changepassword)
+* [token/resetpasswordcode](#resetpasswordcode)
+* [token/resetpassword](#resetpassword)
+* [token/logout](#logout)
+* [authenticatesocialuser](#authenticatesocialuser)
+
+### createuser 
+- This is to create a user
+- Method: POST
+- Authorization: AllowAny
+- fields:
+{
+"email": "",
+"username": "",
+"password": "",
+"first_name": "",
+"last_name": ""
+}
+- Optional fields are username, first_name and last_name
+
+
+
+### login 
+- This is to login a user, it returns userdetails with token along 
+- Method: POST
+- Authorization: AllowAny
+- fields:
+{
+    "email": "",
+    "username": "",
+    "password": "",
+}
+- Optional either username or email can be used, or both.
+It returns response with token along with it for authentication
+
+
+
+### edituser 
+- This is to edituser details
+- Method: POST
+- Authorization: Token
+- fields:
+{
+    "email": "",
+    "username": "",
+    "first_name": "",
+    "last_name": "",
+}
+- All fields are optional, only input the field you want to change
+
+### changepassword 
+- This is to change user's password
+- Method: POST
+- Authorization: Token
+- fields:
+{
+    "old_password": "",
+    "new_password": "",
+}
+- If the old password is correct, it changes the user's password to the new one.
+
+### getuser 
+- This is to get user details, it returns an object with the user details
+- Method: GET
+- Authorization: Token
+
+### resetpasswordcode
+- This will generate a code for the user and send back as response,  the code can be sent to the user's email or sms, the next end point will be to accept the code and email
+- Method: POST
+- Authorization: AllowAny
+- fields: 
+{
+"email": "",
+"resetcode": ""
+}
+
+### resetpassword
+- This will accept the code, email and password, if it's correct, the password will be changed
+- Method: POST
+- Authorization: AllowAny
+- fields: 
+{
+"email": "",
+"resetcode": "",
+"password": ""
+}
+
+### logout
+- This will delete the user's token
+- Method: POST
+- Authorization: AllowAny
+
+
+### authenticatesocialuser
+
+- To authenticate a user with social media (facebook and google)
+- Method: POST
+- Authorization: AllowAny
+- fields:
+{
+    "provider": '',
+    "token": "",
+    "email": "",
+    "username": "",
+    "first_name": "",
+    "last_name": "",
+    "social_id": "",
+    "profile_pic": ""
+}
+- These fields are coming from google/facebook response.
+- ## provider field accepts 'Facebook' or 'Google' which ever provider being used.
+- ## token is the access_token returned from google or facebook.
+- ## social_id: for facebook it is "id" that is returned, for google, it is user_id.
+- optional fields are username, first_name, last_name and profile_pic.
+
+
+
