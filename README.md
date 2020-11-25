@@ -84,7 +84,7 @@ It returns response with token along with it for authentication
 
 ### edituser 
 - This is to edituser details
-- Method: POST
+- Method: PATCH
 - Authorization: Token
 - fields:
 {
