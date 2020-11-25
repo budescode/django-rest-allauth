@@ -155,9 +155,9 @@ It returns response with token along with it for authentication
     "profile_pic": ""
 }
 - These fields are coming from google/facebook response.
-- ## provider field accepts 'Facebook' or 'Google' which ever provider being used.
-- ## token is the access_token returned from google or facebook.
-- ## social_id: for facebook it is "id" that is returned, for google, it is user_id.
+- provider field accepts 'Facebook' or 'Google' which ever provider being used.
+- token is the access_token returned from google or facebook.
+- social_id: for facebook it is "id" that is returned, for google, it is user_id.
 - optional fields are username, first_name, last_name and profile_pic.
 
 
