@@ -68,64 +68,64 @@ This package uses token authentication
 
 
 ### login 
-This is to login a user, it returns userdetails with token along 
-Method: POST
-Authorization: AllowAny
-fields:
+- This is to login a user, it returns userdetails with token along 
+- Method: POST
+- Authorization: AllowAny
+- fields:
 {
     "email": "",
     "username": "",
     "password": "",
 }
-Optional either username or email can be used, or both.
+- Optional either username or email can be used, or both.
 It returns response with token along with it for authentication
 
 
 
 ### edituser 
-This is to edituser details
-Method: POST
-Authorization: Token
-fields:
+- This is to edituser details
+- Method: POST
+- Authorization: Token
+- fields:
 {
     "email": "",
     "username": "",
     "first_name": "",
     "last_name": "",
 }
-All fields are optional, only input the field you want to change
+- All fields are optional, only input the field you want to change
 
 ### changepassword 
-This is to change user's password
-Method: POST
-Authorization: Token
-fields:
+- This is to change user's password
+- Method: POST
+- Authorization: Token
+- fields:
 {
     "old_password": "",
     "new_password": "",
 }
-If the old password is correct, it changes the user's password to the new one.
+- If the old password is correct, it changes the user's password to the new one.
 
 ### getuser 
-This is to get user details, it returns an object with the user details
-Method: GET
-Authorization: Token
+- This is to get user details, it returns an object with the user details
+- Method: GET
+- Authorization: Token
 
 ### resetpasswordcode
-This will generate a code for the user and send back as response,  the code can be sent to the user's email or sms, the next end point will be to accept the code and email
-Method: POST
-Authorization: AllowAny
-fields: 
+- This will generate a code for the user and send back as response,  the code can be sent to the user's email or sms, the next end point will be to accept the code and email
+- Method: POST
+- Authorization: AllowAny
+- fields: 
 {
 "email": "",
 "resetcode": ""
 }
 
 ### resetpassword
-This will accept the code, email and password, if it's correct, the password will be changed
-Method: POST
-Authorization: AllowAny
-fields: 
+- This will accept the code, email and password, if it's correct, the password will be changed
+- Method: POST
+- Authorization: AllowAny
+- fields: 
 {
 "email": "",
 "resetcode": "",
@@ -133,17 +133,17 @@ fields:
 }
 
 ### logout
-This will delete the user's token
-Method: POST
-Authorization: AllowAny
+- This will delete the user's token
+- Method: POST
+- Authorization: AllowAny
 
 
 ### authenticatesocialuser
 
-To authenticate a user with social media (facebook and google)
-Method: POST
-Authorization: AllowAny
-fields:
+- To authenticate a user with social media (facebook and google)
+- Method: POST
+- Authorization: AllowAny
+- fields:
 {
     "provider": '',
     "token": "",
@@ -154,9 +154,9 @@ fields:
     "social_id": "",
     "profile_pic": ""
 }
-These fields are coming from google/facebook response.
-provider accepts 'Facebook' or 'Google'
-optional fields are username, first_name, last_name and profile_pic
+- These fields are coming from google/facebook response.
+- ## provider field accepts 'Facebook' or 'Google'
+- optional fields are username, first_name, last_name and profile_pic
 
 
 
