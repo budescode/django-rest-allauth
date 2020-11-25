@@ -48,7 +48,7 @@ This package uses token authentication
 * [token/changepassword](#changepassword)
 * [token/resetpasswordcode](#resetpasswordcode)
 * [token/resetpassword](#resetpassword)
-* token/logout
+* [token/logout](#logout)
 * [authenticatesocialuser](#authenticatesocialuser)
 
 ### createuser 
@@ -131,6 +131,13 @@ fields:
 "resetcode": "",
 "password": ""
 }
+
+### logout
+This will delete the user's token
+Method: POST
+Authorization: AllowAny
+
+
 ### authenticatesocialuser
 
 To authenticate a user with social media (facebook and google)
