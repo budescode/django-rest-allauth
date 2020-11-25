@@ -40,16 +40,16 @@ Quick start
 
 ## Url Endpoints
 This package uses token authentication
-* [authenticatesocialuser](#authenticatesocialuser)
+
 * [token/createuser](#createuser)
 * [token/login](#login)
-* token/getuser
-* token/edituser
-* token/changepassword
+* [token/getuser](#getuser)
+* [token/edituser](#edituser)
+* [token/changepassword](#changepassword)
 * token/resetpasswordcode
 * token/resetpassword
 * token/logout
-
+* [authenticatesocialuser](#authenticatesocialuser)
 
 ### createuser 
 This is to create a user
@@ -76,6 +76,33 @@ fields:
 Optional either username or email can be used, or both.
 It returns response with token along with it for authentication
 
+
+
+### edituser 
+This is to edituser details
+Authorization: Token
+fields:
+{
+    "email": "",
+    "username": "",
+    "first_name": "",
+    "last_name": "",
+}
+All fields are optional, only input the field you want to change
+
+### changepassword 
+This is to change user's password
+Authorization: Token
+fields:
+{
+    "old_password": "",
+    "new_password": "",
+}
+If the old password is correct, it changes the user's password to the new one.
+
+### getuser 
+This is to get user details, it returns an object with the user details
+Authorization: Token
 
 ### authenticatesocialuser
 
