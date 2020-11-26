@@ -1,5 +1,5 @@
 # django-rest-allauth
-A Django app to handle rest framework authentications
+A Django package to handle rest framework authentications including social authentications
 
 Quick start
 -----------
@@ -10,9 +10,13 @@ Quick start
 
     INSTALLED_APPS = [
         ...
+
         'django_rest_allauth',
+
         'rest_framework',
+
         'rest_framework.authtoken',
+
         'corsheaders',
     ]
 
@@ -22,21 +26,30 @@ Quick start
     ...
     ]
 
-4. Include the django_rest_allauth URLconf in your project urls.py like this::
+4. Include DEFAULT_AUTHENTICATION_CLASSES and DEFAULT_PERMISSION_CLASSES in settings.py 
+    REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+            'rest_framework.authentication.TokenAuthentication',
+        ),
+        'DEFAULT_PERMISSION_CLASSES': (
+            'rest_framework.permissions.IsAuthenticated','rest_framework.permissions.AllowAny' )
+    }
 
-    path('django-rest-allauth/', include('django-rest-allauth.api.urls')),
+5. Include the django_rest_allauth URLconf in your project urls.py like this::
 
-5. Set how you want your corsheaders in settings.py or whitelist your url
+    path('django-rest-allauth/', include('django_rest_allauth.api.urls')),
+
+6. Set how you want your corsheaders in settings.py or whitelist your url
     CORS_ALLOW_CREDENTIALS = True
     CORS_ORIGIN_ALLOW_ALL = True
     SITE_ID = 1
 
-6. Run ``python manage.py makemigrations`` ``python manage.py migrate`` to create the DjangoRestAllAuth models.
+7. Run ``python manage.py makemigrations`` ``python manage.py migrate`` to create the DjangoRestAllAuth models.
 
-7. Start the development server and visit http://127.0.0.1:8000/admin/
+8. Start the development server and visit http://127.0.0.1:8000/admin/
    to create a poll (you'll need the Admin app enabled).
 
-8. Visit http://127.0.0.1:8000/django-rest-allauth/ to participate in the django_rest_allauth.
+9. Visit http://127.0.0.1:8000/django-rest-allauth/ to participate in the django_rest_allauth.
 
 ## Url Endpoints
 This package uses token authentication
@@ -81,6 +94,11 @@ This package uses token authentication
 It returns response with token along with it for authentication
 
 
+### getuser 
+- This is to get user details, it returns an object with the user details
+- Method: GET
+- Authorization: Token
+
 
 ### edituser 
 - This is to edituser details
@@ -106,10 +124,6 @@ It returns response with token along with it for authentication
 }
 - If the old password is correct, it changes the user's password to the new one.
 
-### getuser 
-- This is to get user details, it returns an object with the user details
-- Method: GET
-- Authorization: Token
 
 ### resetpasswordcode
 - This will generate a code for the user and send back as response,  the code can be sent to the user's email or sms, the next end point will be to accept the code and email
