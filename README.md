@@ -63,17 +63,17 @@ Quick start
 9. Visit http://127.0.0.1:8000/django-rest-allauth/ to participate in the django_rest_allauth.
 
 ## Url Endpoints
-This package uses token authentication, the following are the endpoints available for it.::
+This package uses token authentication, the following are the endpoints available for it.
 
-    * [token/createuser](#createuser)
-    * [token/login](#login)
-    * [token/getuser](#getuser)
-    * [token/edituser](#edituser)
-    * [token/changepassword](#changepassword)
-    * [token/resetpasswordcode](#resetpasswordcode)
-    * [token/resetpassword](#resetpassword)
-    * [token/logout](#logout)
-    * [authenticatesocialuser](#authenticatesocialuser)
+* [token/createuser](#createuser)
+* [token/login](#login)
+* [token/getuser](#getuser)
+* [token/edituser](#edituser)
+* [token/changepassword](#changepassword)
+* [token/resetpasswordcode](#resetpasswordcode)
+* [token/resetpassword](#resetpassword)
+* [token/logout](#logout)
+* [authenticatesocialuser](#authenticatesocialuser)
 
 ### createuser 
 - This is to create a user
