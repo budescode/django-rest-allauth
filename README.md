@@ -22,12 +22,18 @@ Quick start
 
 3. Include corsheaders in your middleware in settings.py
     MIDDLEWARE = [
+
     'corsheaders.middleware.CorsMiddleware',
+
     ...
+
     ]
 
 4. Include DEFAULT_AUTHENTICATION_CLASSES and DEFAULT_PERMISSION_CLASSES in settings.py 
+
     REST_FRAMEWORK = {
+
+        
         'DEFAULT_AUTHENTICATION_CLASSES': (
             'rest_framework.authentication.TokenAuthentication',
         ),
@@ -41,7 +47,9 @@ Quick start
 
 6. Set how you want your corsheaders in settings.py or whitelist your url
     CORS_ALLOW_CREDENTIALS = True
+
     CORS_ORIGIN_ALLOW_ALL = True
+    
     SITE_ID = 1
 
 7. Run ``python manage.py makemigrations`` ``python manage.py migrate`` to create the DjangoRestAllAuth models.

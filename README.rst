@@ -62,15 +62,21 @@ Quick start
 **Url Endpoints**
 This package uses token authentication
 
-token/createuser
-token/login
-token/getuser
-token/edituser
-token/changepassword
-token/resetpasswordcode
-token/resetpassword
-token/logout
-authenticatesocialuser
+- token/createuser
+
+- token/login
+
+- token/getuser
+
+- token/edituser
+
+- token/changepassword
+
+- token/resetpasswordcode
+
+- token/resetpassword
+
+- token/logout
 
 **createuser** 
     This is to create a user
