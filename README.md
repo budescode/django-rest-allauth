@@ -20,7 +20,8 @@ Quick start
         'corsheaders',
     ]
 
-3. Include corsheaders in your middleware in settings.py
+3. Include corsheaders in your middleware in settings.py::
+
     MIDDLEWARE = [
 
     'corsheaders.middleware.CorsMiddleware',
@@ -29,15 +30,16 @@ Quick start
 
     ]
 
-4. Include DEFAULT_AUTHENTICATION_CLASSES and DEFAULT_PERMISSION_CLASSES in settings.py 
+4. Include DEFAULT_AUTHENTICATION_CLASSES and DEFAULT_PERMISSION_CLASSES in settings.py:: 
 
     REST_FRAMEWORK = {
-
         
         'DEFAULT_AUTHENTICATION_CLASSES': (
+
             'rest_framework.authentication.TokenAuthentication',
         ),
         'DEFAULT_PERMISSION_CLASSES': (
+
             'rest_framework.permissions.IsAuthenticated','rest_framework.permissions.AllowAny' )
     }
 
@@ -45,7 +47,8 @@ Quick start
 
     path('django-rest-allauth/', include('django_rest_allauth.api.urls')),
 
-6. Set how you want your corsheaders in settings.py or whitelist your url
+6. Set how you want your corsheaders in settings.py or whitelist your url::
+
     CORS_ALLOW_CREDENTIALS = True
 
     CORS_ORIGIN_ALLOW_ALL = True
@@ -60,17 +63,17 @@ Quick start
 9. Visit http://127.0.0.1:8000/django-rest-allauth/ to participate in the django_rest_allauth.
 
 ## Url Endpoints
-This package uses token authentication
+This package uses token authentication, the following are the endpoints available for it.::
 
-* [token/createuser](#createuser)
-* [token/login](#login)
-* [token/getuser](#getuser)
-* [token/edituser](#edituser)
-* [token/changepassword](#changepassword)
-* [token/resetpasswordcode](#resetpasswordcode)
-* [token/resetpassword](#resetpassword)
-* [token/logout](#logout)
-* [authenticatesocialuser](#authenticatesocialuser)
+    * [token/createuser](#createuser)
+    * [token/login](#login)
+    * [token/getuser](#getuser)
+    * [token/edituser](#edituser)
+    * [token/changepassword](#changepassword)
+    * [token/resetpasswordcode](#resetpasswordcode)
+    * [token/resetpassword](#resetpassword)
+    * [token/logout](#logout)
+    * [authenticatesocialuser](#authenticatesocialuser)
 
 ### createuser 
 - This is to create a user
